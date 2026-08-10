@@ -5,6 +5,10 @@
 # 4) switch the player 
 # 5) check for win or tie again 
 
+#to do:
+#add a tie functionality
+#use minimax algorithm 
+
 import random
 from itertools import permutations
 def printBoard(board):
@@ -15,14 +19,16 @@ def printBoard(board):
         if x!=3:
             print("__|__|__")
 
-def checkWin(player):
+def checkWin(player, playerName):
     global winner
     winCombs=[[0,4,8],[6,4,2],[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8]]
     for i,j,k in permutations(player,3):
         if [i,j,k] in winCombs:
-            print("someone won!")
+            print(playerName,"won!")
             winner=True
             break
+    if winner==False and len(turn)==0:
+            print("its a tie, no one won!")
 def playerInput():
     global playerInputs
     global board
@@ -43,14 +49,15 @@ winner=False
 s=str(input("you want X or O:"))
 board=["0","1","2","3","4","5","6","7","8"]
 turn=[0,1,2,3,4,5,6,7,8]
-currentPlayer="X"
-winner=False
-gameRunning= True
 playerInputs=[]
 compInputs=[]
 while winner==False:
     printBoard(board)
     playerInput()
-    checkWin(playerInputs)
+    checkWin(playerInputs,"PLAYER")
+    if winner==True:
+        break
     compPlay()
-    checkWin(compInputs)
+    checkWin(compInputs,"COMPUTER")
+    if winner==True:
+            break
